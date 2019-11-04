@@ -16,7 +16,7 @@ const mrpiracy_genrs = {'Ação':15,'Animação':14,'Animes':23,'Aventura':13,'B
 	*/
 // Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/manifest.md
 const manifest = {
-	"id": "community.bydate",
+	"id": "community.mrpiracy",
 	"version": "0.0.1",
 	"catalogs": [{'type':'movie','id':'mr_piracy','name':'Mr Piracy',"extra": [
 		{
