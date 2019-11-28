@@ -36,13 +36,14 @@ function getMoviesMRpiracy(page,type='filmes',cat=false){
 		request(endpoint+'/'+type+'.php?'+(cat?'categoria='+mrpiracy_genrs[cat]+'&':'')+'pagina='+page, function (error, response, html) {
 			if (!error && response.statusCode == 200) {
 				const $ = cheerio.load(html,{ decodeEntities: false });
-				var metas = []
+				var metas = [];
 				var $items = $('#movies-list .item');
 				for (let i = 0; i < $items.length; i++) {
 					const $item = $($items[i]);
 					var imdb = $item.find('a').attr('href').match(/tt[^.]+/);
 					if(imdb == undefined) continue;
 					imdb = imdb[0];
+					if(imdb.endsWith('pt')) imdb.slice(0,imdb.length-2);
 					metas.push({
 						id:imdb,
 						name:$item.find('.original-name').text().replace(/\"/g,''),
