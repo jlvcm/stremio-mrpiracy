@@ -43,7 +43,7 @@ function getMoviesMRpiracy(page,type='filmes',cat=false){
 					var imdb = $item.find('a').attr('href').match(/tt[^.]+/);
 					if(imdb == undefined) continue;
 					imdb = imdb[0];
-					if(imdb.endsWith('pt')) imdb.slice(0,imdb.length-2);
+					if(imdb.endsWith('pt')) imdb = imdb.slice(0,imdb.length-2);
 					metas.push({
 						id:imdb,
 						name:$item.find('.original-name').text().replace(/\"/g,''),
