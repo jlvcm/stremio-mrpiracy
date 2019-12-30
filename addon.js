@@ -6,6 +6,13 @@ const mrpiracy_genrs = {'Ação':15,'Animação':14,'Animes':23,'Aventura':13,'B
 
 const endpoint = 'https://ww10.mrpiracy.top'
 
+const oneDay = 24 * 60 * 60 // in seconds
+
+const cache = {
+	maxAge: 0.8 * oneDay, // 0.8 days
+	staleError: 6 * 30 * oneDay // 6 months
+}
+
 const manifest = {
 	"id": "community.mrpiracy",
 	version: package.version,
@@ -75,7 +82,11 @@ builder.defineCatalogHandler(function(args, cb) {
 
 	return new Promise((resolve, reject) => {
 		Promise.all([getMoviesMRpiracy(start,type,cat), getMoviesMRpiracy(start+1,type,cat), getMoviesMRpiracy(start+2,type,cat), getMoviesMRpiracy(start+3,type,cat)]).then(function(values) {
-			resolve({'metas':[].concat.apply([], values)});
+			resolve({
+				metas:[].concat.apply([], values),
+				cacheMaxAge: cache.maxAge,
+				staleError: cache.staleError
+			});
 		});
 	});
 });

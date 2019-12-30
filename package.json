@@ -1,6 +1,6 @@
 {
 	"name": "stremio-addon-mrpiracy",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "show mrpiracy list",
 	"scripts": {
 		"start": "node server.js"
