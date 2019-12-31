@@ -59,7 +59,7 @@ function getMoviesMRpiracy(page,type='filmes',cat=false){
 						imdbRating: $item.find('.mp-rating-imdb').text().trim().split('/')[0],
 						genres: $item.find('.genre').text().split(','),
 						posterShape: 'regular',
-						type:'movie'
+						type:type=='filmes'?'movie':'series'
 					})
 				}
 				resolve(metas);
