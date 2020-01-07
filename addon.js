@@ -90,12 +90,8 @@ builder.defineCatalogHandler(function(args, cb) {
 	});
 });
 
-builder.defineStreamHandler(args => {
-	const id = args.id.split(':')[0];
-	const type = args.type=='movie'?'filme':'serie'
-	const season = type=='serie'?'&t='+args.id.split(':')[1]:'';
-	const episode = type=='serie'?'&e='+args.id.split(':')[2]:'';
-	const path  = endpoint+'/'+type+'.php?imdb='+id+season+episode+'#2';
+function getStream(type,id,season,episode,pt=false){
+	const path  = endpoint+'/'+type+'.php?imdb='+id+(pt?'PT':'')+season+episode+'#2';
 	return new Promise((resolve, reject) => {
 		request({
 			method: 'HEAD',
@@ -103,9 +99,26 @@ builder.defineStreamHandler(args => {
 			uri: path
 		}, function (error, response, html) {
 			if (response.statusCode==200){
-				const stream = { externalUrl: path }
-				resolve({streams:[stream]});
-			}else resolve({});
+				const stream = { externalUrl: path };
+				if(pt){
+					stream['title']='Português'
+				}
+				resolve(stream);
+			}else resolve();
+		});
+	});
+}
+
+builder.defineStreamHandler(args => {
+	const id = args.id.split(':')[0];
+	const type = args.type=='movie'?'filme':'serie'
+	const season = type=='serie'?'&t='+args.id.split(':')[1]:'';
+	const episode = type=='serie'?'&e='+args.id.split(':')[2]:'';
+	return new Promise((resolve, reject) => {
+		Promise.all([getStream(type,id,season,episode), getStream(type,id,season,episode,true)]).then(function(values) {
+			resolve({
+				streams:[].concat.apply([], values)
+			});
 		});
 	});
 });
