@@ -1,4 +1,4 @@
-const { addonBuilder } = require("stremio-addon-sdk")
+const { addonBuilder } = require('stremio-addon-sdk')
 const cheerio = require('cheerio')
 const request = require('request')
 const package = require('./package.json')
@@ -14,30 +14,32 @@ const cache = {
 }
 
 const manifest = {
-	"id": "community.mrpiracy",
+	id: 'community.mrpiracy',
+	logo: 'https://s33.postimg.cc/5nno5wc7j/face2017.png',
 	version: package.version,
-	"catalogs": [{'type':'movie','id':'mr_piracy','name':'Mr Piracy',"extra": [
+	catalogs: [{type:'movie',id:'mr_piracy',name:'Mr Piracy',extra: [
 		{
-		  "name": "genre",
-		  "options": Object.keys(mrpiracy_genrs),
-		  "isRequired": false
+		  name: 'genre',
+		  options: Object.keys(mrpiracy_genrs),
+		  isRequired: false
 		}
-	  ]},{'type':'series','id':'mr_piracy','name':'Mr Piracy',"extra": [
+	  ]},{type:'series',id:'mr_piracy',name:'Mr Piracy',extra: [
 		{
-		  "name": "genre",
-		  "options": Object.keys(mrpiracy_genrs),
-		  "isRequired": false
+		  name: 'genre',
+		  options: Object.keys(mrpiracy_genrs),
+		  isRequired: false
 		}
 	  ]}],
-	"resources": ["catalog"],
-	"types": ['Movie','Series'],
-	"name": "Mr Piracy",
-	"description": "Mr Piracy",
-	"idPrefixes": [
-		"tt"
-	]
+	resources: ['catalog', 'stream'],
+	types: ['movie','series'],
+	name: 'Mr Piracy',
+	description: 'Mr Piracy list and streams',
+	idPrefixes: ['tt']
+
 }
+
 const builder = new addonBuilder(manifest)
+
 function getMoviesMRpiracy(page,type='filmes',cat=false){
 	return new Promise((resolve, reject) => {
 		request(endpoint+'/'+type+'.php?'+(cat?'categoria='+mrpiracy_genrs[cat]+'&':'')+'pagina='+page, function (error, response, html) {
@@ -70,9 +72,6 @@ function getMoviesMRpiracy(page,type='filmes',cat=false){
 	});
 }
 
-
-// 
-https://api.themoviedb.org
 builder.defineCatalogHandler(function(args, cb) {
 	// filter the dataset object and only take the requested type
 
@@ -87,6 +86,26 @@ builder.defineCatalogHandler(function(args, cb) {
 				cacheMaxAge: cache.maxAge,
 				staleError: cache.staleError
 			});
+		});
+	});
+});
+
+builder.defineStreamHandler(args => {
+	const id = args.id.split(':')[0];
+	const type = args.type=='movie'?'filme':'serie'
+	const season = type=='serie'?'&t='+args.id.split(':')[1]:'';
+	const episode = type=='serie'?'&e='+args.id.split(':')[2]:'';
+	const path  = endpoint+'/'+type+'.php?imdb='+id+season+episode+'#2';
+	return new Promise((resolve, reject) => {
+		request({
+			method: 'HEAD',
+			followRedirect: false,
+			uri: path
+		}, function (error, response, html) {
+			if (response.statusCode==200){
+				const stream = { externalUrl: path }
+				resolve({streams:[stream]});
+			}else resolve({});
 		});
 	});
 });

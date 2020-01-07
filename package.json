@@ -1,7 +1,10 @@
 {
 	"name": "stremio-addon-mrpiracy",
-	"version": "0.0.3",
-	"description": "show mrpiracy list",
+	"version": "0.0.4",
+	"description": "show mrpiracy movies list",
+	"engines": { 
+		"node": "12.x" 
+	},
 	"scripts": {
 		"start": "node server.js"
 	},
