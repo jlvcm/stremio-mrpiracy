@@ -2,8 +2,8 @@
 	"name": "stremio-addon-mrpiracy",
 	"version": "0.0.4",
 	"description": "show mrpiracy movies list",
-	"engines": { 
-		"node": "12.x" 
+	"engines": {
+		"node": "12.x"
 	},
 	"scripts": {
 		"start": "node server.js"
@@ -11,7 +11,7 @@
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.3",
 		"request": "^2.88.0",
-		"stremio-addon-sdk": "1.1.x",
+		"stremio-addon-sdk": "^1.6.1",
 		"windows-1252": "^1.0.0"
 	}
 }
