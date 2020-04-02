@@ -1,0 +1,7 @@
+{
+  "name": "Stremio MrPiracy List",
+  "description": "show mrpiracy movies list",
+  "repository": "https://github.com/jlvcm/stremio-mrpiracy",
+  "logo": "https://s33.postimg.cc/5nno5wc7j/face2017.png",
+  "keywords": ["node", "stremio", "mrpiracy"]
+}
