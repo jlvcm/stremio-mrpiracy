@@ -10,8 +10,8 @@
 	},
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.3",
-		"request": "^2.88.0",
-		"stremio-addon-sdk": "^1.6.1",
+		"request": "^2.88.2",
+		"stremio-addon-sdk": "^1.6.2",
 		"windows-1252": "^1.0.0"
 	}
 }
