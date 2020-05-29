@@ -27,7 +27,7 @@ After setting up run:
 ```shell
 docker pull joaolvcm/stremio-mrpiracy
 ```
-origin https://github.com/toothlesspanda/notebook-inesmatos.git
+
 Then retrieve the project from the github
 
 ```shell
